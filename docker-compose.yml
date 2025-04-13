@@ -1,0 +1,83 @@
+version: "3.8"
+
+services:
+  auth-service:
+    build: ./services/auth-service
+    container_name: auth-service
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - DATABASE_URL=postgres://postgres:postgres@auth-db:5432/authdb
+    depends_on:
+      - auth-db
+    volumes:
+      - ./services/auth-service:/app
+      - /app/node_modules
+    networks:
+      - backend
+
+  auth-db:
+    image: postgres:15
+    container_name: auth-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: authdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - auth-db
+    networks:
+      - backend
+
+  game-service:
+    build: ./services/game-service
+    container_name: game-service
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+      - DATABASE_URL=postgres://postgres:postgres@game-db:5432/gamedb
+    depends_on:
+      - game-db
+    volumes:
+      - ./services/game-service:/app
+      - /app/node_modules
+    networks:
+      - backend
+
+  game-db:
+    image: postgres:15
+    container_name: game-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gamedb
+    ports:
+      - "5433:5432"
+    volumes:
+      - game-db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  auth-db-data:
+  game-db-data:
