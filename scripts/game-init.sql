@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS game_players (
     character_id TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS game_moves (
+CREATE TABLE IF NOT EXISTS game_state (
     id SERIAL PRIMARY KEY,
     game_id TEXT REFERENCES games(id),
     character_id TEXT NOT NULL,
