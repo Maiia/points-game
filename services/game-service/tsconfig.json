@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "esnext",
-    "rootDir": "src",
+    "rootDir": "../../",
     "moduleResolution": "node",
     "allowJs": false,
     "sourceMap": true,
@@ -12,6 +12,7 @@
     "noImplicitAny": true,
     "skipLibCheck": true
   },
+  "extends": "../../tsconfig-base.json",
   "exclude": [
     "node_modules",
     "dist"

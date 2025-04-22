@@ -1,0 +1,33 @@
+<mat-card
+    class="shadow-lg rounded-xl border border-gray-200 p-4 hover:scale-[1.01] transition-all duration-200"
+>
+    <mat-card-title class="text-xl font-semibold text-gray-800">
+        <div class="flex justify-between">
+            <span class="text-2xl text-amber-700 font-bold">{{ owner().nickname }}</span>
+            <div>
+                <span class="text-gray-800">{{ owner().rating }} </span>
+                <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example home icon"
+                    fontIcon="star"
+                ></mat-icon>
+            </div>
+        </div>
+    </mat-card-title>
+
+    <mat-card-content>
+        <p class="text-sm text-gray-600">
+            Board size: {{ game().board[0].length }} x {{ game().board.length }}
+        </p>
+        <p class="text-sm text-gray-600 mt-1">Blocked cells: {{ game().blockedCells.length }}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button
+            class="mt-2 px-6 py-2 bg-cyan-700 text-white rounded shadow hover:bg-cyan-800 font-bold"
+            (click)="onJoinGameClick()"
+        >
+            Join
+        </button>
+    </mat-card-actions>
+</mat-card>
