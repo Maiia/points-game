@@ -1,17 +1,22 @@
-import redisClient from '../redisClient.js';
-import { GameState } from '../types/gameState.js';
+import redisClient from "../redisClient.js";
+import type { GameState } from "@shared/types/gameState";
 
 const getRedisKey = (gameId: string) => `game:${gameId}`;
 
-export const saveGameState = async (gameId: string, state: GameState): Promise<void> => {
-    const key = getRedisKey(gameId);
-    await redisClient.set(key, JSON.stringify(state));
+export const saveGameState = async (
+  gameId: string,
+  state: GameState,
+): Promise<void> => {
+  const key = getRedisKey(gameId);
+  await redisClient.set(key, JSON.stringify(state));
 };
 
-export const getGameState = async (gameId: string): Promise<GameState | null> => {
-    const key = getRedisKey(gameId);
-    const data = await redisClient.get(key);
-    return data ? JSON.parse(data) : null;
+export const getGameState = async (
+  gameId: string,
+): Promise<GameState | null> => {
+  const key = getRedisKey(gameId);
+  const data = await redisClient.get(key);
+  return data ? JSON.parse(data) : null;
 };
 
 // USAGE
