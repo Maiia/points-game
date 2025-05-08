@@ -1,4 +1,4 @@
-export const character = {
+export const mockCharacter = {
     nickname: 'FoxyKetty',
     rating: 1111,
     id: 'char-001',

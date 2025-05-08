@@ -1,0 +1,18 @@
+.board {
+    display: grid;
+    width: 100vw;
+    height: calc(100vh - 200px);
+    place-items: center;
+    justify-content: center;
+    align-content: center;
+    overflow: hidden;
+    grid-auto-flow: column;
+}
+
+.cell {
+    aspect-ratio: 1 / 1;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    //background-color: lightgray;
+    //border: 1px solid #ccc;
+}

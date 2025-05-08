@@ -1,0 +1,10 @@
+<div class="board" [ngStyle]="boardStyle()">
+    @for (row of this.liveGameState().board; track row) {
+        @for (cell of row; track cell) {
+            <div
+                class="cell border aspect-square bg-blue-100 hover:bg-blue-300"
+                [class.blocked]="cell.isBlocked"
+            ></div>
+        }
+    }
+</div>

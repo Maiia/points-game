@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: LobbyPageComponent,
     },
     {
-        path: 'game/:gameId',
+        path: 'game/:gameId/character/:characterId',
         component: GamePageComponent,
     },
 ];

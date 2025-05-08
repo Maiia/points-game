@@ -1,0 +1,33 @@
+@for (
+    character of [characterService.character(), characterService.opponent()];
+    track character!.id
+) {
+    <ng-container
+        *ngTemplateOutlet="
+            message;
+            context: { name: character!.nickname, diceValue: diceRolls()[character!.id] }
+        "
+    >
+    </ng-container>
+}
+
+<ng-template #message let-value="diceValue" let-name="name">
+    <p>
+        {{ name }}:
+        @if (value) {
+            {{ value.value }}
+        } @else {
+            Not rolled yet
+        }
+    </p>
+</ng-template>
+
+<mat-card-actions>
+    <button
+        class="mt-2 px-6 py-2 bg-cyan-700 text-white rounded shadow hover:bg-cyan-800 font-bold"
+        (click)="onRollDiceClick()"
+        [disabled]="characterService.isCharacterTurnToRoll()"
+    >
+        Roll Dice
+    </button>
+</mat-card-actions>

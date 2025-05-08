@@ -1,16 +1,24 @@
-import { createClient } from 'redis';
+import { createClient } from "redis";
 
 const redisClient = createClient({
-    url: 'redis://redis:6379' // host: redis (з docker-compose)
+  url: process.env.REDIS_URL || "redis://redis:6379",
 });
 
-redisClient.on('error', (err) => console.error('Redis Client Error', err));
+redisClient.on("error", (err) => console.error("Redis Client Error", err));
 
-export const initRedis = async () => {
-    if (!redisClient.isOpen) {
-        await redisClient.connect();
-        console.log('✅ Redis connected');
-    }
-};
+export const redisPublisher = redisClient.duplicate();
+export const redisSubscriber = redisClient.duplicate();
+
+export async function initRedis() {
+  try {
+    await redisClient.connect();
+    await redisPublisher.connect(); // ⬅️ Підʼєднуємо дублікати теж
+    await redisSubscriber.connect();
+    console.log("Connected to Redis");
+  } catch (err) {
+    console.error(err);
+    console.log("Failed to connect to Redis");
+  }
+}
 
 export default redisClient;
