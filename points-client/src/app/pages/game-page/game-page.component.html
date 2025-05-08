@@ -1,1 +1,11 @@
-<p>game-page works!</p>
+@if (gameService.game()) {
+    <app-game-overview [game]="gameService.game()!"></app-game-overview>
+}
+
+@if (gameService.game() && gameService.liveGameState()) {
+    <app-dice-area [diceRolls]="gameService.liveGameState()!.diceRolls"></app-dice-area>
+}
+
+@if (gameService.liveGameState()) {
+    <app-game-board [liveGameState]="gameService.liveGameState()!"></app-game-board>
+}

@@ -1,33 +1,37 @@
-import { Injectable, signal } from '@angular/core';
-import { GameState } from '@shared/types/gameState';
+import { computed, Injectable, signal } from '@angular/core';
+import { GameStatus } from '@shared/src/types/gameState';
 import { mockGames } from '../mocks/mock-games';
-import { character } from '../mocks/mock-character';
-import { addPlayerToGame } from '../logic/player';
+import { mockCharacter } from '../mocks/mock-character';
+import { Game } from '@shared/src';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GameLobbyService {
-    private _games = signal<GameState[]>(mockGames);
-    games = this._games.asReadonly();
+    private _games = signal<Game[]>(mockGames);
 
-    addGames(game: GameState) {
-        this._games.update(games => [...games, game]);
-    }
+    readonly waitingGames = computed(() =>
+        this._games().filter(game => game.status === GameStatus.waiting)
+    );
 
-    clearGames() {
-        this._games.set([]);
-    }
-
-    joinGame(gameId: string): void {
-        this._games.update(games => {
-            const joinGameIndex = games.findIndex(game => game.gameId === gameId);
-            const gameWithPlayers = addPlayerToGame(games[joinGameIndex], character);
-            return [
-                ...games.slice(0, joinGameIndex),
-                gameWithPlayers,
-                ...games.slice(joinGameIndex + 1),
-            ];
-        });
+    async joinGame(gameId: string): Promise<boolean> {
+        try {
+            // this._games.update(games => {
+            // TODO rewrite, change logic, return type
+            // const joinGameIndex = games.findIndex(game => game.gameId === gameId);
+            // const gameWithPlayers = addPlayerToGame(games[joinGameIndex], mockCharacter);
+            // const gameWithStatus = changeGameStatus.toSetup(gameWithPlayers);
+            // return [
+            //     ...games.slice(0, joinGameIndex),
+            //     gameWithStatus,
+            //     ...games.slice(joinGameIndex + 1),
+            // ];
+            // return true;
+            // });
+            return true;
+        } catch (e: any) {
+            console.log(e);
+            throw new Error(e.message);
+        }
     }
 }

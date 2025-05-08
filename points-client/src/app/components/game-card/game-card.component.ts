@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { GameState } from '@shared/types/gameState';
 import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { GameLobbyService } from '../../services/game-lobby.service';
+import { Game } from '@shared/src';
 
+// TODO rename to LOBBY game card
 @Component({
     selector: 'app-game-card',
     imports: [MatCard, MatCardTitle, MatCardContent, MatCardActions, MatIconModule],
@@ -14,12 +15,16 @@ import { GameLobbyService } from '../../services/game-lobby.service';
 })
 export class GameCardComponent {
     private gameLobbyService = inject(GameLobbyService);
-    game = input.required<GameState>();
+    game = input.required<Game>();
     owner = computed(() => this.game().players[Object.keys(this.game().players)[0]]);
     private router = inject(Router);
 
-    onJoinGameClick() {
-        this.gameLobbyService.joinGame(this.game().gameId);
-        this.router.navigateByUrl(`/game/${this.game().gameId}`);
+    async onJoinGameClick() {
+        const joinGameSuccess = await this.gameLobbyService.joinGame(this.game().gameId);
+        if (joinGameSuccess) {
+            this.router.navigateByUrl(`/game/${this.game().gameId}`);
+        } else {
+            throw new Error('Failed to join the game. Please try again later.');
+        }
     }
 }

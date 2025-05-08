@@ -1,0 +1,32 @@
+@if (characterService.character() && characterService.opponent()) {
+    <section>
+        Players:
+        @for (
+            player of [characterService.character(), characterService.opponent()];
+            track player!.id;
+            let last = $last
+        ) {
+            @if (last) {
+                VS
+            }
+            {{ player!.nickname }}
+        }
+    </section>
+}
+
+<section>
+    @switch (game().status) {
+        @case (GameStatus.setup) {
+            <span>Waiting for players to roll the dice</span>
+        }
+        @case (GameStatus.active) {
+            <span>Waiting for player AAA to roll the dice</span>
+        }
+        @case (GameStatus.finished) {
+            <span>Game Is Finished</span>
+        }
+        @default {
+            <span>Waiting</span>
+        }
+    }
+</section>
