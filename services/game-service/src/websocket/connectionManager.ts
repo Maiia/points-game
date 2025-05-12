@@ -14,7 +14,6 @@ export const registerClient = (gameId: string, ws: WebSocket) => {
 };
 
 export const broadcastToGameClients = (gameId: string, message: string) => {
-  console.log("clientsByGameId", clientsByGameId);
   clientsByGameId.get(gameId)?.forEach((ws) => {
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(message);

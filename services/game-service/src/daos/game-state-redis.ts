@@ -1,4 +1,3 @@
-// import { LiveGameState } from "@points-game/types/gameState";
 import redisClient, { redisPublisher } from "../redisClient";
 import { mockGameState } from "../mocks/mock-game-state";
 import { LiveGameState } from "../types/gameState";
@@ -27,9 +26,7 @@ export const publishDiceValue = async (
   characterId: string,
   diceValue: number,
 ): Promise<void> => {
-  console.log(`game:111:diceRolled`);
   await redisPublisher.publish(
-    // `game:111:diceRolled`,
     `game:${gameId}:diceRolled`,
     JSON.stringify({ characterId, value: diceValue }),
   );

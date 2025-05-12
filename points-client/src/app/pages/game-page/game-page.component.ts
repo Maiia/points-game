@@ -25,6 +25,6 @@ export class GamePageComponent implements OnInit {
     }
     private async initGame() {
         this.gameService.getGame(this.gameId!);
-        await this.gameService.getLiveGameState(this.gameId!);
+        await this.gameService.startGame(this.gameId!);
     }
 }
